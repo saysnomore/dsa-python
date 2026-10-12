@@ -1,0 +1,39 @@
+intro:
+Quick Sort is a divide-and-conquer sorting algorithm that sorts an array by choosing a pivot element and partitioning the other elements around it.
+Unlike Merge Sort, which divides the array into halves before sorting, Quick Sort first partitions the array around a pivot. It then sorts the resulting sections recursively.
+
+Algorithm
+We'll use the Lomuto partition scheme, choosing the last element as the pivot.
+1. If the subarray has zero or one element, stop because it is already sorted.
+2. Choose the last element as the pivot.
+3. Maintain a boundary separating elements smaller than or equal to the pivot from the remaining elements.
+4. Scan the subarray from left to right:
+   - If the current element is less than or equal to the pivot, move the boundary forward and swap the current element into the smaller-elements section.
+5. Swap the pivot into the position immediately after the smaller-elements section.
+6. Recursively Quick Sort the subarray to the left of the pivot.
+7. Recursively Quick Sort the subarray to the right of the pivot.
+8. Return the sorted array.
+
+code:
+
+from typing import List
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        def partition(low, high):
+            pivot = nums[high]
+            i = low - 1
+            for j in range(low, high):
+                if nums[j] <= pivot:
+                    i += 1
+                    nums[i], nums[j] = nums[j], nums[i]
+            # Place pivot in its correct position
+            nums[i + 1], nums[high] = nums[high], nums[i + 1]
+            return i + 1
+        def quick_sort(low, high):
+            if low < high:
+                pivot_index = partition(low, high)
+
+                quick_sort(low, pivot_index - 1)
+                quick_sort(pivot_index + 1, high)
+        quick_sort(0, len(nums) - 1)
+        return nums
