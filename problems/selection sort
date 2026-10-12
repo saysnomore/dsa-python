@@ -1,1 +1,27 @@
+Leetcode prob 912. Sort an Array
+
+code:
+class Solution(object):
+    def sortArray(self, nums):
+
+        for i in range(len(nums) - 1):
+            min_index = i
+
+            for j in range(i + 1, len(nums)):
+                if nums[j] < nums[min_index]:
+                    min_index = j
+
+            if min_index != i:
+                nums[i], nums[min_index] = nums[min_index], nums[i]
+
+        return nums
+
+intuition:
+The selection sort algorithm sorts an array by repeatedly finding the minimum element from the unsorted part and putting it at the beginning. The largest element will end up at the last index of the array.
+
+approach:
+1. Select the starting index of the unsorted part using a loop with i from 0 to n-1.
+2. Find the smallest element in the range from i to n-1 using an inner loop.
+3. Swap this smallest element with the element at index i.
+4. Repeat the process for the next starting index.
 
