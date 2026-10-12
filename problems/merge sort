@@ -1,0 +1,51 @@
+intro:
+- Merge Sort is a divide-and-conquer sorting algorithm. It sorts an array by repeatedly dividing it into smaller parts, sorting those parts, and merging them back together in sorted order.
+- The process has three main steps:
+1. Divide: Split the array into two halves until each subarray contains just one element. A single element is already sorted.
+2. Conquer: Recursively sort the smaller subarrays.
+3. Merge: Combine the sorted subarrays by repeatedly choosing the smaller of their first remaining elements.
+
+approach:
+1. If the array contains zero or one element, return it because it is already sorted.
+2. Find the middle index of the array.
+3. Divide the array into a left half and a right half.
+4. Recursively apply Merge Sort to both halves.
+5. Merge the two sorted halves:
+- Compare the first unprocessed element of each half.
+- Add the smaller element to the result.
+- Move to the next element in the half from which the element was selected.
+- Repeat until one half is exhausted.
+- Append all remaining elements from the other half.
+6. Return the merged, sorted array.
+
+code:
+
+from typing import List
+
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        # Merge two sorted arrays
+        def merge(left, right):
+            result = []
+            i = j = 0
+            # Compare elements from both halves
+            while i < len(left) and j < len(right):
+                if left[i] <= right[j]:
+                    result.append(left[i])
+                    i += 1
+                else:
+                    result.append(right[j])
+                    j += 1
+            # Append any remaining elements
+            result.extend(left[i:])
+            result.extend(right[j:])
+            return result
+        # Divide and sort the array
+        def merge_sort(arr):
+            if len(arr) <= 1:
+                return arr
+            mid = len(arr) // 2
+            left = merge_sort(arr[:mid])
+            right = merge_sort(arr[mid:])
+            return merge(left, right)
+        return merge_sort(nums)
