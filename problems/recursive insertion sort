@@ -1,0 +1,48 @@
+intro:
+Remember how Insertion Sort works: take one element and insert it into the correct position among the elements before it.
+The recursive version follows the same idea, but instead of using a loop to process each element, we use recursive function calls.
+
+We need two recursive operations:
+- insertion_sort(n): Sorts the first n elements.
+- insert_at_position(n, key): Inserts key into the correct position in the sorted prefix, shifting larger elements to the right.
+
+algorithm:
+1. If the array contains zero or one element, return because it is already sorted.
+2. Recursively sort the first (n-1) elements.
+3. Store the last element as key.
+4. Compare key with the element immediately before it.
+5. If the preceding element is greater than key, shift that element one position to the right.
+6. Recursively continue moving backward until the correct position for key is found.
+7. Insert key at that position.
+8. Return the sorted array.
+
+code:
+from typing import List
+
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+
+        # Insert key into the sorted prefix using recursion
+        def insert_at_position(pos, key):
+            if pos == 0 or nums[pos - 1] <= key:
+                nums[pos] = key
+                return
+
+            # Shift the larger element to the right
+            nums[pos] = nums[pos - 1]
+
+            # Recursively find the correct position
+            insert_at_position(pos - 1, key)
+
+        # Recursively sort the first n elements
+        def insertion_sort(n):
+            if n <= 1:
+                return
+
+            insertion_sort(n - 1)
+
+            key = nums[n - 1]
+            insert_at_position(n - 1, key)
+
+        insertion_sort(len(nums))
+        return nums
