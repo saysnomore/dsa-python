@@ -1,0 +1,50 @@
+intro:
+The key challenge is to implement Bubble Sort using recursion instead of loops. We can do this by using one recursive function to perform a pass through the array and another recursive call to repeat the passes.
+
+How do we replace loops with recursion?
+We use two recursive functions:
+- bubble_pass() recursively compares adjacent elements during a single pass.
+- recursive_bubble_sort() recursively repeats passes, reducing the unsorted portion by one each time.
+
+Algorithm: Recursive Bubble Sort:
+1. If the array has zero or one element, return it because it is already sorted.
+2. Perform one bubble pass recursively:
+   - Compare the elements at indices i and i + 1.
+   - If the left element is greater than the right element, swap them.
+   - Recursively process the next adjacent pair.
+3. After one pass, the largest element in the unsorted portion is at the end.
+4. Recursively sort the remaining unsorted portion, excluding that last element.
+5. Return the sorted array.
+Important: There are no for or while loops. Both traversing the array and repeating passes are handled through recursive calls.
+
+code:
+from typing import List
+
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+
+        def bubble_pass(end, i=0):
+            # One pass is complete
+            if i >= end:
+                return
+
+            # Swap adjacent elements if out of order
+            if nums[i] > nums[i + 1]:
+                nums[i], nums[i + 1] = nums[i + 1], nums[i]
+
+            # Process the next adjacent pair
+            bubble_pass(end, i + 1)
+
+        def recursive_bubble_sort(n):
+            # Base case: zero or one element
+            if n <= 1:
+                return
+
+            # Move the largest remaining element to the end
+            bubble_pass(n - 1)
+
+            # Sort the remaining unsorted portion
+            recursive_bubble_sort(n - 1)
+
+        recursive_bubble_sort(len(nums))
+        return nums
