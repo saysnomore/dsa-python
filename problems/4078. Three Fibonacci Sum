@@ -1,0 +1,36 @@
+intuition:
+fibonacci sequence- infinite series of numbers where each number is the sum of the two preceding ones. 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
+
+let f.k, f.k+1, f.k+2 be three consequtive terms in fibonacci series
+by the definition of fibonacci series, f.k+2 = f.k + f.k+1
+
+hence, f.k + f.k+1 + f.k+2 = 2*f.k+2
+thus, any sum of three consecutive fibonacci numbers equals twice a fibonacci number. 
+therefore, n can be written as the sum of three consecutive fibonacci terms if and only if n is even and n/2 is a fibonacci number. 
+
+approach:
+1. check if the number is even. if n is odd (n(mod2) != 0), return false immediately since 2*f.k+2 is always even.
+2. target computation: calculate target = n/2
+3. fibonacci verfication: 
+  - generate fibonacci numbers starting from f2 = 1, f3 = 1, f4 = 2... until the terms reach or exceed target. 
+  - if target matches any generated fibonacci number, return true. otherwise return false. 
+
+complexity: time- o(logn)
+            space- o(1)
+
+code:
+if n%2 != 0:
+  return False
+
+target = n//2
+a,b = 1,1
+
+if target == a:
+  return True
+
+while b < target:
+a,b = b, a + b
+if b == target:
+  return True
+
+return False
