@@ -1,0 +1,46 @@
+problem- consider all prime numbers less than or equal to "n". select the primes such that:
+1. the sum of the selected primes is less than or equal to "s".
+2. the number of selected primes is maximised. (select the smallest primes)
+3. each prime can be selected at most once. 
+return an integer array containing the selected primes in increasing order. if multipe optimal selections exist, return any of them. if no prime can be selected, return an empty array.
+
+eg- n = 7, s = 20
+o/p- [2,3,5,7]
+
+intuition-
+1. to maximise the number of selected primes under a target sum s, we should choose the smallest possible prime numbers first, because smaller primes allow us to pick as many numbers as possible before exeeding the sum limit s. 
+2. "The Sieve of Eratosthenes" is an ancient algorithm used to find all prime numbers up to a specified integer n. 
+3. we iterate through primes in increasing order starting from 2, adding each prime to our selection as long as the running total does not exceed s.
+
+approach-
+1. use a sieve of eratosthenes to generate prime numbers up to n. 
+2. maintain a running sum of selected primes.
+3. as we identify each prime x <= n:
+  - check if sum + x <= s. if it exceeds s, stop further selection since all subsequent primes will be larger.
+  - otherwise append x to the result array and add x to sum.
+4. return the resulting array.
+
+complexity: time- O(nloglogn)
+            space- o(n)
+
+code-
+        if n < 2 or s < 2:
+            return []
+            
+        is_prime = [True] * (n + 1)
+        is_prime[0] = is_prime[1] = False
+        
+        for i in range(2, int(n**0.5) + 1):
+            if is_prime[i]:
+                for j in range(i * i, n + 1, i):
+                    is_prime[j] = False
+                    
+        res = []
+        total_sum = 0
+        
+        for x in range(2, n + 1):
+            if is_prime[x]:
+                if total_sum + x > s:
+                    break
+                total_sum += x
+                res.append(x)
