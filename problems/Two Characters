@@ -1,0 +1,33 @@
+Two Characters HackerRank
+
+code-
+
+s = input().strip()  //input() reads a string from the keyboard
+                    //strip() removes white space from beginning and end of the input.
+unique = set(s) //set(s) contains a set of each distinct character only once, thats what sets do
+max_len = 0  //we store the length of the longest valid string found so far
+
+chars = list(unique) //this converts a set into a list so we can access characters using indexes.
+
+for i in range(len(chars)):  //we need to choose the first character of a pair, however
+                              we need 2 charac for a pair, hence the inner loop
+    for j in range(i + 1, len(chars)): //second char of the loop. eg- a,b and a,e and a,f 
+        a, b = chars[i], chars[j]  //assigned the selected pair
+
+        # Keep only the selected two characters
+        temp = ''.join(c for c in s if c == a or c == b)  //this keeps only a and b (the
+                                                          variables)
+
+        valid = True  //assume the pair is valid. we initially assume that temp
+        alternates correctly and then later we check it using another loop.
+        for k in range(1, len(temp)):  //this loop checks whether the filtered string is 
+                                        valid.
+            if temp[k] == temp[k - 1]:  //check for consecutive duplicates
+                valid = False
+                break  //instantly breaks the loop, because we found the problem
+
+        if valid:
+            max_len = max(max_len, len(temp))   //if the string is valid, compare its 
+            length with best found so far and keep the larger value.
+
+print(max_len)
